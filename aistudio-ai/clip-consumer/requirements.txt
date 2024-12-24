@@ -1,0 +1,11 @@
+torch
+torchvision
+ftfy
+regex
+tqdm
+git+https://github.com/openai/CLIP.git
+elasticsearch==8.16.0
+kafka-python==2.0.2
+minio==7.2.11
+redis==5.2.0
+deep-translator==1.11.4

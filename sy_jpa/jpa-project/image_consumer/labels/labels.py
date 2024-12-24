@@ -1,0 +1,33 @@
+# labels.py
+
+labels = [
+    "ballerina", "elephant", "lion", "grand canyon", "people in a square", "people digging the ground",
+    "person surfing", "taj mahal", "mountain", "beach", "skyscraper", "airplane", "astronaut", "sunset",
+    "sunrise", "volcano", "forest", "river", "waterfall", "ocean", "desert", "city skyline", "street view",
+    "road trip", "car", "bicycle", "bus", "motorcycle", "train", "zoo", "park", "garden", "flowers", "bird",
+    "cat", "dog", "horse", "monkey", "fish", "shark", "whale", "jellyfish", "dolphin", "spider", "snake",
+    "crocodile", "giraffe", "zebra", "bear", "koala", "penguin", "rainbow", "starry sky", "moon", "sun",
+    "clouds", "snow", "winter", "spring", "autumn", "summer", "mountain top", "cave", "forest trail", "tent",
+    "campfire", "night sky", "moonlight", "galaxy", "spacecraft", "spaceship", "robot", "dinosaur", "planet",
+    "spaceship interior", "fountain", "castle", "palace", "bridge", "lighthouse", "stadium", "stadium seat",
+    "tennis match", "soccer field", "basketball court", "volleyball net", "gym", "swimming pool", "picnic",
+    "fireworks", "Christmas tree", "Halloween costume", "Thanksgiving dinner", "birthday cake", "cake",
+    "ice cream", "sandwich", "fruit", "vegetables", "plate of food", "coffee", "tea", "wine", "beer", "cheese",
+    "bread", "pasta", "hamburger", "pizza", "sushi", "steak", "tacos", "spaghetti", "curry", "noodles", "salad",
+    "sandwich", "burrito", "pancakes", "fried chicken", "fish and chips", "dumplings", "soup", "hot dog", "kebab",
+    "chocolate", "candy", "cookies", "dessert", "pastry", "carrot", "tomato", "potato", "onion", "cucumber",
+    "lettuce", "spinach", "avocado", "eggplant", "cauliflower", "broccoli", "zucchini", "mushrooms", "pumpkin",
+    "corn", "rice", "beans", "lentils", "peas", "watermelon", "melon", "apple", "banana", "grape", "cherry",
+    "strawberry", "blueberry", "kiwi", "orange", "lemon", "peach", "plum", "pineapple", "pear", "mango",
+    "pomegranate", "fig", "papaya", "cherry blossom", "bamboo", "cactus", "succulent", "flower bed", "bonsai",
+    "orchid", "lilies", "roses", "tulips", "sunflower", "lavender", "geranium", "dandelion", "marigold",
+    "daffodil", "forget-me-not", "violet", "poppy", "iris", "jasmine", "hibiscus", "chrysanthemum", "magnolia",
+    "peony", "water lily", "lilac", "butterfly", "bee", "ladybug", "ant", "grasshopper", "dragonfly", "caterpillar",
+    "beetle", "moth", "fly", "firefly", "mosquito", "cockroach", "housefly", "lizard", "frog", "toad", "duck",
+    "chicken", "turkey", "goose", "owl", "eagle", "hawk", "peacock", "penguin", "sparrow", "parrot", "pigeon",
+    "crow", "raven", "woodpecker", "canary", "dove", "seagull", "hawk", "falcon", "vulture", "swan", "stork",
+    "flamingo", "parakeet", "budgie", "cockatoo", "cuckoo", "kingfisher", "heron", "bald eagle", "owl",
+    "woodpecker", "crow", "robin", "wren", "magpie", "starling", "swallow", "albatross", "ostrich", "penguin",
+    "shark", "ray", "manta ray", "stingray", "starfish", "seahorse", "octopus", "squid", "whale shark", "orca",
+    "dolphin", "seal", "sea lion", "manatee", "lobster", "crab", "shrimp", "clams", "mussels", "fishnet", "aquarium"
+]

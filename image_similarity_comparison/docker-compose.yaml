@@ -1,0 +1,32 @@
+services:
+  image-similarity-sy:
+    image: image-similarity:0.2
+    stdin_open: true
+    tty: true
+    networks:
+      - common-network
+    volumes:
+      - ./:/app
+    environment:
+      - MINIO_SERVER_ACCESS_KEY=minio
+      - MINIO_SERVER_SECRET_KEY=miniosecret
+      - MINIO_SERVER_URL=minio:9000
+      - AISTUDIO_DATA_URL=http://10.0.10.203:18080
+      - AISTUDIO_PREPROCESSOR_URL=http://10.0.10.203:6060
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=Admin1234
+      - REDIS_DB=0
+    restart: always
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities:
+              - gpu
+              device_ids:
+              - "0"
+
+networks:
+  common-network:
+    external: true

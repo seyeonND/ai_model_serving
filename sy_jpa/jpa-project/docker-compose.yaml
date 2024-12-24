@@ -1,0 +1,190 @@
+services:
+  jpa:
+    image: sy-jpa-spring:latest
+    stdin_open: true
+    tty: true
+    depends_on:
+      - psql
+      - minio
+      - kafka
+    ports:
+      - 18080:8080
+    volumes:
+      - ./jpa:/app
+    environment:
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - SPRING_MINIO_URL=http://minio:9000  # MinIO 설정
+      - SPRING_MINIO_ACCESS_KEY=admin
+      - SPRING_MINIO_SECRET_KEY=Admin1234
+    restart: always
+    networks:
+      - psy-network
+  
+  psql:
+    image: postgres:latest
+    ports:
+      - 15432:5432
+    environment:
+      POSTGRES_PASSWORD: Admin1234
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+    restart: always
+    networks:
+      - psy-network
+
+  kafka:
+    image: 'bitnami/kafka:latest'
+    networks:
+      - psy-network
+    environment:
+      - KAFKA_CFG_NODE_ID=0
+      - KAFKA_CFG_PROCESS_ROLES=controller,broker
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=0@kafka:9093
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+    ports:
+      - 19092:9092
+    restart: always
+    volumes:
+      - ./kafka_data:/bitnami/kafka/data
+
+  minio:
+    image: 'bitnami/minio:latest'
+    ports:
+      - '19000:9000'
+      - '19001:9001'
+    environment:
+      - MINIO_ROOT_USER=admin
+      - MINIO_ROOT_PASSWORD=Admin1234
+    networks:
+      - psy-network
+    volumes:
+      - ./minio_data:/bitnami/minio/data
+    restart: always
+
+  # python:
+  #   image: 'sy-python:latest'
+  #   stdin_open: true
+  #   tty: true
+  #   networks:
+  #     - psy-network
+  #   depends_on:
+  #     - minio
+  #     - elasticsearch
+  #     - kafka
+  #     - mongo
+  #   volumes:
+  #     - ./python:/app
+  #   restart: always
+
+  python-api:
+    image: 'sy-python-api:latest'
+    stdin_open: true
+    tty: true
+    ports:
+      - 18000:8000
+    environment:
+      - MINIO_ENDPOINT=minio:9000
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+    volumes:
+      - ./python_api:/app
+    depends_on:
+      - minio
+      - kafka
+      - redis
+    networks:
+      - psy-network
+    restart: always
+
+  image-consumer:
+    image: 'sy-python-image:latest'
+    stdin_open: true
+    tty: true
+    environment:
+      - MINIO_ENDPOINT=minio:9000
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - MINIO_ACCESS_KEY=admin
+      - MINIO_SECRET_KEY=Admin1234
+    volumes:
+      - ./image_consumer:/app
+    depends_on:
+      - minio
+      - kafka
+      - elasticsearch
+      - mongo
+      - redis
+    networks:
+      - psy-network
+    restart: always
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities:
+                - gpu
+              device_ids:
+                - "0"
+
+  elasticsearch:
+    image: elasticsearch:8.16.1
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms2g -Xmx2g  # 최소 및 최대 JVM 힙 메모리 2GB로 설정
+    ports:
+      - 19200:9200
+    volumes:
+      - ./es_data:/usr/share/elasticsearch/data  # 데이터 저장소
+    networks:
+      - psy-network
+    restart: always
+    mem_limit: 4g  # 메모리 제한 4GB로 설정
+
+  kibana:
+    image: kibana:8.16.1
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200  
+      - xpack.security.enabled=false
+    ports:
+      - 15601:5601
+    networks:
+      - psy-network
+    depends_on:
+      - elasticsearch  # Elasticsearch가 먼저 시작되어야 함
+    restart: always
+      
+  mongo:
+    image: mongo:latest  
+    ports:
+      - 17017:27017  
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=Admin1234
+    volumes:
+      - ./mongo_data:/data/db  
+    restart: always
+    networks:
+      - psy-network
+
+  redis:
+    image: 'bitnami/redis:latest'
+    ports: 
+      - 16379:6379
+    volumes:
+      - ./redis_data:/bitnami/redis/data
+    networks:
+      - psy-network
+    environment:
+      - REDIS_PASSWORD=Admin1234
+    restart: always
+
+volumes:
+  postgres:
+    driver: local
+  minio_data:
+    driver: local
+
+networks:
+  psy-network:
+    external: true  

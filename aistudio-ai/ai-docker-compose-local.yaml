@@ -1,0 +1,36 @@
+services:
+  ai-clip-local:
+    image: ai-clip:latest
+    stdin_open: true
+    tty: true
+    networks:
+      - common-network
+    volumes:
+      - ./clip-consumer:/app
+    environment:
+      - MINIO_SERVER_ACCESS_KEY=minio
+      - MINIO_SERVER_SECRET_KEY=miniosecret
+      - MINIO_SERVER_URL=minio:9000
+      - ES_HOST=http://elasticsearch:9200
+      - ES_INDEX_NAME=data_features
+      - KAFKA_HOST=kafka:9092
+      - KAFKA_IMAGE_TOPIC=image-model
+      - KAFKA_IMAGE_GROUP=image-group2
+      - KAFKA_SEARCH_TOPIC=search-text
+      - KAFKA_SEARCH_GROUP=search-text
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=Admin1234
+      - REDIS_DB=0
+    restart: always
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities:
+                - gpu
+              device_ids:
+                - "0"
+networks:
+  common-network:
+    external: true

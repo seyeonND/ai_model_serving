@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: 
+  namespace: 
+  labels:
+    app: 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: 
+  template:
+    metadata:
+      labels:
+        app: 
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: 
+      containers:
+        - name: clip
+          image: 
+          imagePullPolicy: Always
+          stdin: true
+          tty: true
+          env:
+            - name: MINIO_ROOT_USER
+              valueFrom:
+                secretKeyRef:
+                  name: infra-secrets
+                  key: MINIO_ROOT_USER
+            - name: MINIO_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: infra-secrets
+                  key: MINIO_ROOT_PASSWORD
+            - name: MINIO_SERVER_URL
+              value: "ai-studio-infra:9000"
+            - name: ES_HOST
+              value: "http://ai-studio-infra:9200"
+            - name: ES_INDEX_NAME
+              value: "data_features"
+            - name: KAFKA_HOST
+              value: "ai-studio-infra:9092"
+            - name: KAFKA_IMAGE_TOPIC
+              value: "image-model"
+            - name: KAFKA_IMAGE_GROUP
+              value: "image-group2"
+            - name: KAFKA_SEARCH_TOPIC
+              value: "search-text"
+            - name: KAFKA_SEARCH_GROUP
+              value: "search-text"
+            - name: REDIS_HOST
+              value: "ai-studio-infra"
+            - name: REDIS_PORT
+              value: "6379"
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: infra-secrets
+                  key: REDIS_PASSWORD
+            - name: REDIS_DB
+              value: "0"
+          command: ["/bin/sh", "-c", "/app/clip-starts.sh"]
+          resources:
+            limits:
+              nvidia.com/gpu: 1

@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: sytest
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://mariadb:3306/test
+    username: root
+    password: root1234
+server:
+  port: 8000
+springdoc:
+  swagger-ui:
+    path: /api/swagger-ui

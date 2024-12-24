@@ -1,0 +1,20 @@
+services:
+  app:
+    image: aistudio-data:0.5
+    stdin_open: true
+    tty: true
+    ports:
+      - 8080:8080
+    restart: always
+    networks:
+      - common-network
+    environment:
+      - MINIO_SERVER_ACCESS_KEY=
+      - MINIO_SERVER_SECRET_KEY=
+      - MINIO_SERVER_URL=http://minio:9000
+      - SPRING_DATA_MONGODB_URI=mongodb://@mongo:27017/?authSource=admin
+    working_dir: /app
+    entrypoint: ["bash", "entrypoint.sh"]
+networks:
+  common-network:
+    external: true

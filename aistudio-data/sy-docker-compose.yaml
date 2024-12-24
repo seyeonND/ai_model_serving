@@ -1,0 +1,20 @@
+services:
+  java-local:
+    image: aistudio-data:0.5
+    stdin_open: true
+    tty: true
+    ports:
+      - 18080:8080
+    volumes:
+      - ./:/app
+    restart: always
+    networks:
+      - common-network
+    environment:
+      - MINIO_SERVER_ACCESS_KEY=
+      - MINIO_SERVER_SECRET_KEY=
+      - MINIO_SERVER_URL=http://minio:9000
+      - SPRING_DATA_MONGODB_URI=mongodb://@mongo:27017/?authSource=admin
+networks:
+  common-network:
+    external: true

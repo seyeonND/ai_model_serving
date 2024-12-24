@@ -1,0 +1,42 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: jpaspring
+    
+  datasource:
+    url: jdbc:postgresql://psql/aiflow
+    username: postgres
+    password: Admin1234
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  kafka:
+    bootstrap-servers: kafka:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      group-id: my-group
+      key-serializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-serializer: org.apache.kafka.common.serialization.StringDeserializer
+
+  # minio:
+  #   endpoint: http://minio:9000  # MinIO의 URL, 컨테이너 내부에서 접근
+  #   access-key: admin            # MinIO의 access key
+  #   secret-key: Admin1234        # MinIO의 secret key
+  #   bucket-name: your-bucket     # 사용하려는 버킷 이름
+  
+
+springdoc:
+  swagger-ui:
+    path: /api/swagger-ui
+  
+  

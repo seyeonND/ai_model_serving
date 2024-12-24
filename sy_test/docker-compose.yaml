@@ -1,0 +1,29 @@
+services:
+  psy-spring-app:
+    container_name: psy-spring-app
+    image: psy-spring:latest
+    stdin_open: true
+    tty: true
+    ports:
+      - 18080:8000
+    entrypoint: ["bash", "entrypoint.sh"]
+    networks:
+      psy-network:
+    restart: always
+    volumes:
+      - ./ubuntu/logs:/var/log/sytest
+  mariadb:
+    container_name: psy-mariadb
+    image: mariadb:latest
+    ports:
+      - 13306:3306
+    volumes:
+      - ./mariadb:/var/lib/mysql
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: root1234
+    networks:
+      psy-network:
+networks:
+  psy-network:
+    external: true

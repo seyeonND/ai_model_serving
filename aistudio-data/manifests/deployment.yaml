@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: 
+  namespace: 
+  labels:
+    app: 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: 
+  template:
+    metadata:
+      labels:
+        app: 
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: 
+      containers:
+        - name: ai-studio-bff
+          image: 
+          ports:
+            - containerPort: 8080
+          imagePullPolicy: Always
